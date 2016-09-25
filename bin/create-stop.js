@@ -34,7 +34,7 @@ util.readFile('data/stop.json', {encoding: 'utf8'})
         for (let i = 0; i < length; i++) {
             chunks.push(formattedStops.slice(i * 100, (i + 1) * 100));
         }
-        return BlueBird.map(chunks, (chunk) => {
+        return BlueBird.map(chunks, (chunk: Object) => {
             return Stop.bulkCreate(chunk);
         })
     })
@@ -42,7 +42,7 @@ util.readFile('data/stop.json', {encoding: 'utf8'})
         console.log('Stop creation done.');
         process.exit(0);
     })
-    .catch((err) => {
+    .catch((err: Error) => {
         console.error(err.stack);
         process.exit(0);
     });
