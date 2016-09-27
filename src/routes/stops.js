@@ -1,7 +1,7 @@
 // @flow
 
 import express from 'express';
-import {Stop, sequelize} from '../models';
+import {Stop, CompoundStop, sequelize} from '../models';
 const router = express.Router();
 
 function getAreaSearchString(longitude: number, latitude: number, length: number): string {
@@ -26,9 +26,9 @@ router.get('/nearby/:longitude/:latitude/:areaLength?/', (req, res) => {
         params.areaLength ? parseFloat(params.areaLength) : 0.01
     );
 
-    Stop.findAll({
-        attributes: ['nameZh', 'position'],
-        where: sequelize.literal(`MBRContains(GeomFromText('Polygon(${areaString})'), Stop.position) = 1`)
+    CompoundStop.findAll({
+        attributes: ['id', 'nameZh', 'position', 'goBack', 'routeIds', 'stopIds'],
+        where: sequelize.literal(`MBRContains(GeomFromText('Polygon(${areaString})'), CompoundStop.position) = 1`)
     })
     .then((stops) => {
         res.send(stops);
