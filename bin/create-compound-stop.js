@@ -184,15 +184,7 @@ Stop.findAll({ attributes: ["nameZh", "position", "goBack", "address", "stopId",
         });
     })
     .then((result: CompoundStopType[]) => {
-        const length = Math.ceil(result.length * 0.01);
-        const chunks = [];
-
-        for (let i = 0; i < length; i++) {
-            chunks.push(result.slice(i * 100, (i + 1) * 100));
-        }
-        return BlueBird.map(chunks, (chunk: Object) => {
-            return CompoundStop.bulkCreate(chunk);
-        })
+        return util.sliceAndBulkCreate(result, CompoundStop);
     })
     .then(() => {
         console.log('done.');

@@ -25,8 +25,8 @@ module.exports = {
 
     down: function (queryInterface, Sequelize) {
         return queryInterface.removeIndex('Routes', 'routeId')
-            .then(() => {
-                queryInterface.dropTable('Routes');
-            });
+        .then(() => {
+            queryInterface.dropTable('Routes');
+        });
     }
 };

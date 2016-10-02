@@ -28,15 +28,7 @@ util.readFile('data/stop.json', {encoding: 'utf8'})
         })
     })
     .then((formattedStops: Object[]) => {
-        const length = Math.ceil(formattedStops.length * 0.01);
-        const chunks = [];
-
-        for (let i = 0; i < length; i++) {
-            chunks.push(formattedStops.slice(i * 100, (i + 1) * 100));
-        }
-        return BlueBird.map(chunks, (chunk: Object) => {
-            return Stop.bulkCreate(chunk);
-        })
+        return util.sliceAndBulkCreate(formattedStops, Stop);
     })
     .then(() => {
         console.log('Stop creation done.');
